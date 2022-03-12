@@ -19,3 +19,15 @@ function sum(a: number, b: number): number {
 }
 
 console.log(sum(a, b))
+
+type Product = {
+    id: number, 
+    name: string
+}
+
+// Khong co ke thua se k map lay duoc name trong products
+const getProducts = <T extends Product> (products: T[]) => {
+    const result = products.map(product => `<h1>${product.name}</h1>`)
+}
+
+getProducts([{id: 1, name: 'A'}, {id: 2, name: "B"}])
