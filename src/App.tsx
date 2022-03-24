@@ -27,6 +27,7 @@ import CartPage from './pages/client/cart/CartPage';
 import CheckoutPage from './pages/client/cart/CheckoutPage';
 import OrderSuccessfully from './pages/client/cart/OrderSuccessfully';
 import EditProduct from './pages/admin/product/EditProduct';
+import PrivateRouter from './components/PrivateRouter';
 
 // import ShowInfo from './components/ShowInfo'
 
@@ -81,7 +82,7 @@ function App() {
         </Route>
 
         {/* Admin */}
-        <Route path="admin" element={<AdminLayout />}>
+        <Route path="admin" element={<PrivateRouter><AdminLayout /></PrivateRouter>}>
           <Route index element={<Navigate to="dashboard" />} />
           <Route path="dashboard" element={<Dashboard />} />
 
