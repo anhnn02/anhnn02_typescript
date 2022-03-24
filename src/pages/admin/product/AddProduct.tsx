@@ -1,9 +1,31 @@
 import React from 'react'
+import { useForm, SubmitHandler } from "react-hook-form"
+import { useNavigate, useParams } from "react-router-dom"
+import { read } from '../../../api/product'
+import { ProductType } from '../../types/product'
 
-const AddProduct = () => {
+type ProductAddProps = {
+  onAdd: (props: ProductType) => void
+}
+type FormInputs = {
+  name: string,
+  price: number,
+}
+
+const AddProduct = (props: ProductAddProps) => {
+  const { register, handleSubmit, formState: { errors } } = useForm<FormInputs>();
+  const navigate = useNavigate();
+  const onSubmit: SubmitHandler<FormInputs> = data => {
+    props.onAdd(data);
+  }
   return (
     <>
-      <div className="container px-6 mx-auto grid">
+      <form action="" onSubmit={handleSubmit(onSubmit)}>
+        <input type="text" placeholder="Product Name" {...register('name', { required: true })}/>
+        <input type="text" placeholder="Price" {...register('price')}/>
+        <button>Add</button>
+      </form>
+      {/* <div className="container px-6 mx-auto grid">
         <h2 className="my-6 text-2xl font-semibold text-gray-700 :text-gray-200">
           Products
         </h2>
@@ -24,16 +46,7 @@ const AddProduct = () => {
                   Image
                 </label>
                 <div className="mb-3">
-                  <input className="form-control
-                                            block
-                                            w-full
-                                            px-3
-                                            py-1.5
-                                            text-base
-                                            font-normal
-                                            text-gray-700
-                                            bg-white bg-clip-padding
-                                            border border-solid border-gray-300
+                  <input className="form-control  block  w-full  px-3  py-1.5  text-base  font-normal  text-gray-700  bg-white bg-clip-padding  border border-solid border-gray-300
                                             rounded
                                             transition
                                             ease-in-out
@@ -61,7 +74,8 @@ const AddProduct = () => {
                                             m-0
                                             focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                   aria-label="Default select example">
-                  {/* Abc */}
+
+
                   <option className="" value="">Abc</option>
                 </select>
               </div>
@@ -114,7 +128,7 @@ const AddProduct = () => {
               alt="" />
           </div>
         </div>
-      </div>
+      </div> */}
     </>
   )
 }

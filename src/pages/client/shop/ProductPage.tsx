@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { useState } from 'react'
-import Header from '../../components/client/Header';
-import Footer from '../../components/client/Footer';
+import Header from '../../../components/client/Header';
+import Footer from '../../../components/client/Footer';
 
 type Props = {};
 

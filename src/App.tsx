@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 // import './App.css'
 import { Navigate, NavLink, Route, Routes } from 'react-router-dom';
 import HomePage from './pages/client/HomePage';
-import ProductPage from './pages/client/ProductPage';
+import ProductPage from './pages/client/shop/ProductPage';
 import AboutPage from './pages/client/AboutPage';
 import ContactPage from './pages/client/ContactPage';
 import NewsPage from './pages/client/news/NewsPage';
@@ -17,8 +17,15 @@ import Dashboard from './pages/admin/Dashboard';
 import Product from './pages/admin/product/Product';
 import Page404 from './pages/Page404';
 import { ProductType } from './pages/types/product';
-import { list, remove } from './api/product';
+import { create, list, remove } from './api/product';
 import AddProduct from './pages/admin/product/AddProduct';
+import ForgotPassword from './pages/auth/ForgotPassword';
+import AuthLayout from './pages/layouts/AuthLayout';
+import ResetPassword from './pages/auth/ResetPassword';
+import CartPage from './pages/client/cart/CartPage';
+import CheckoutPage from './pages/client/cart/CheckoutPage';
+import OrderSuccessfully from './pages/client/cart/OrderSuccessfully';
+import EditProduct from './pages/admin/product/EditProduct';
 
 // import ShowInfo from './components/ShowInfo'
 
@@ -28,7 +35,6 @@ function App() {
   useEffect(() => {
     const getProducts = async () => {
       const { data } = await list();
-      console.log(data)
       setProducts(data);
     }
     getProducts();
@@ -37,6 +43,12 @@ function App() {
   const removeItem = (id: number) => {
     remove(id)
     setProducts(products.filter(item => item._id !== id));
+  }
+
+  const onHandleAdd = (data) => {
+    console.log(data)
+    create(data);
+    setProducts([...products, data])
   }
   return (
     <>
@@ -49,11 +61,18 @@ function App() {
           <Route path="/detail" element={<DetailNewsPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/order-success" element={<OrderSuccessfully />} />
         </Route>
 
         {/* auth */}
-        <Route path="/register" element={<Register />} />
-        <Route path="/signin" element={<SignIn />} />
+        <Route element={<AuthLayout />}>
+          <Route path="/register" element={<Register />} />
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/reset" element={<ForgotPassword />} />
+          <Route path="/reset/password" element={<ResetPassword />} />
+        </Route>
 
         {/* Admin */}
         <Route path="admin" element={<AdminLayout />}>
@@ -62,8 +81,8 @@ function App() {
 
           <Route path="product">
             <Route index element={< Product products={products} onRemove={removeItem} />} />
-            <Route path=":id" element={<h1>Hello 2</h1>} />
-            <Route path="add-product" element={<AddProduct />} />
+            {/* <Route path=":id/edit" element={<EditProduct/>} /> */}
+            <Route path="add" element={<AddProduct onAdd={onHandleAdd}/>} />
             <Route path="category-product" element={<h1>Hello 2</h1>} />
           </Route>
 
