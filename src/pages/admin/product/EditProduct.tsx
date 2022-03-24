@@ -12,24 +12,30 @@ type FormInputs = {
 }
 
 const EditProduct = (props: ProductEditProps) => {
-    const { register, handleSubmit, formState: { errors } } = useForm<FormInputs>();
+    const { register, handleSubmit, formState: { errors }, reset } = useForm<FormInputs>();
     const navigate = useNavigate();
     const { id } = useParams();
 
     useEffect(() => {
         const getProduct = async () => {
-            const {data} = await read(id);
+            const { data } = await read(id);
+
+            // truyen du lieu cu vao form, k bug linh tinh
+            reset(data)
         }
         getProduct();
     }, [])
 
-    // const onSubmit = () => {
-
-    // }
+    const onSubmit: SubmitHandler<FormInputs> = data => {
+        props.onUpdate(data);
+        navigate('/admin/product');
+    }
     return (
         <form action="" onSubmit={handleSubmit(onSubmit)}>
-            <input type="text" value="{data?.name}" placeholder="Product Name" />
-            <input type="text" value="" placeholder="Price" />
+            <input type="text" {...register("name", { required: true })} placeholder="Product Name" />
+            {errors.name && <span>Field is required!</span>}
+            <input type="text" {...register("price")} placeholder="Price" />
+            <button>Save change</button>
         </form>
     )
 }

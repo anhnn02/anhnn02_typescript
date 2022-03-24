@@ -17,8 +17,9 @@ import Dashboard from './pages/admin/Dashboard';
 import Product from './pages/admin/product/Product';
 import Page404 from './pages/Page404';
 import { ProductType } from './pages/types/product';
-import { create, list, remove } from './api/product';
+import { create, list, remove, update } from './api/product';
 import AddProduct from './pages/admin/product/AddProduct';
+
 import ForgotPassword from './pages/auth/ForgotPassword';
 import AuthLayout from './pages/layouts/AuthLayout';
 import ResetPassword from './pages/auth/ResetPassword';
@@ -46,9 +47,14 @@ function App() {
   }
 
   const onHandleAdd = (data) => {
-    console.log(data)
     create(data);
     setProducts([...products, data])
+  }
+
+  const onHandleUpdate = async (product: ProductType) => {
+    console.log(product);
+    update(product);
+    setProducts(products.map(item => item._id === product._id ? product : item))
   }
   return (
     <>
@@ -81,7 +87,7 @@ function App() {
 
           <Route path="product">
             <Route index element={< Product products={products} onRemove={removeItem} />} />
-            {/* <Route path=":id/edit" element={<EditProduct/>} /> */}
+            <Route path=":id/edit" element={<EditProduct onUpdate={onHandleUpdate}/>} />
             <Route path="add" element={<AddProduct onAdd={onHandleAdd}/>} />
             <Route path="category-product" element={<h1>Hello 2</h1>} />
           </Route>
