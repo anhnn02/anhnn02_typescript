@@ -102,7 +102,17 @@ img{
 .menu-item-link:hover::before{
     @apply translate-x-1/2 translate-y-0 scale-x-100
 } */
-
+.value-home{
+    border-radius: 20px;
+    padding: 20px
+}
+.value-home:hover{
+    box-shadow: 0px 30px 20px -9px #E5E5E5;
+}
+.card-review {
+    box-shadow: 0px 20px 30px -10px #C4C4C4, 40px -40px 50px -20px rgba(255, 111, 22, 0.15);
+    border-radius: 20px;
+}
 .radius-primary{
     @apply rounded-lg
 }
