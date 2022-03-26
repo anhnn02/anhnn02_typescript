@@ -1,7 +1,22 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
+import {useForm, SubmitHandler} from 'react-hook-form'
+import { signup } from '../../api/auth'
 
+type FormInputProps = {
+    name: String,
+    email: String,
+    password: String
+}
 const Register = () => {
+    const {register, handleSubmit, formState: {errors}} = useForm<FormInputProps>();
+    const navigate = useNavigate();
+    const onSubmit: SubmitHandler<FormInputProps> = async (dataUser) => {
+
+        await signup(dataUser)
+        navigate('/signin')
+    }
+
     return (
         <>
             <div className="relative w-[43%] min-w-[465px] max-w-[465px] mr-12">
@@ -14,10 +29,11 @@ const Register = () => {
             <div className="auth-content flex flex-col justify-center w-[350px]">
                 <h2 className="my-[1px] text-3xl font-bold">Get started</h2>
                 <span className="text-gray-darker">Already have an account?<NavLink to="/signin" className="text-primary-color font-bold"> Sign In</NavLink></span>
-                <form action="" className="mt-[20px] mb-[10px]" id="signUp">
+                <form action="" className="mt-[20px] mb-[10px]" id="signUp" onSubmit={handleSubmit(onSubmit)}>
                     <div className="form__item input-container">
                         <div className="relative">
                             <input id="full-name"
+                                {...register('name', {required: true})}
                                 placeholder="Fullname"
                                 className="auth__input p-[10px] radius-primary w-[350px] border-[1.2px] border-solid border-gray-primary text-sm outline-none trans-second focus:border-primary-color" type="text" />
                             {/* <!--
@@ -33,6 +49,7 @@ const Register = () => {
                     <div className="form__item input-container">
                         <div className="relative">
                             <input id="email"
+                                {...register('email', { required: true })}
                                 placeholder="Email"
                                 className="auth__input p-[10px] radius-primary w-[350px] border-[1.2px] border-solid border-gray-primary text-sm outline-none trans-second focus:border-primary-color" type="email" />
                             {/* <!--
@@ -46,6 +63,7 @@ const Register = () => {
                     <div className="form__item input-container">
                         <div className="relative">
                             <input id="password"
+                                {...register('password', { required: true })}
                                 placeholder="Password"
                                 className="auth__input p-[10px] radius-primary w-[350px] border-[1.2px] border-solid border-gray-primary text-sm outline-none trans-second focus:border-primary-color" type="password" />
                             {/* <!--
