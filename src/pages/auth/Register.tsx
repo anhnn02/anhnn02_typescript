@@ -12,7 +12,6 @@ const Register = () => {
     const {register, handleSubmit, formState: {errors}} = useForm<FormInputProps>();
     const navigate = useNavigate();
     const onSubmit: SubmitHandler<FormInputProps> = async (dataUser) => {
-
         await signup(dataUser)
         navigate('/signin')
     }

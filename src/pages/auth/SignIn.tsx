@@ -1,7 +1,24 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { signin } from '../../api/auth';
+
+type FormInputProps = {
+    email: string,
+    password: string | number
+}
 
 const SignIn = () => {
+    const { register, handleSubmit, formState: { errors } } = useForm<FormInputProps>()
+    const navigate = useNavigate()
+
+    const onSubmit: SubmitHandler<FormInputProps> = async data  => {
+        const {data: user} = await signin(data)
+        console.log(user)
+        localStorage.setItem('user', JSON.stringify(user))
+        navigate('/admin')
+    }
+
     return (
         <>
             <div className="relative w-[43%] min-w-[465px] max-w-[465px] mr-12">
@@ -14,10 +31,11 @@ const SignIn = () => {
             <div className="auth-content flex flex-col justify-center w-[350px]">
                 <h2 className="my-[1px] text-3xl font-bold">Sign In</h2>
                 <span className="text-gray-darker">Don’t have an account? <NavLink to="/register" className="text-primary-color font-bold"> Sign Up</NavLink></span>
-                <form action="" id="formSignin" className="mt-[20px] mb-[10px]">
+                <form action="" id="formSignin" className="mt-[20px] mb-[10px]" onSubmit={handleSubmit(onSubmit)}>
                     <div className="form__item input-container">
                         <div className="relative">
                             <input id="email"
+                                {...register('email', { required: true })}
                                 placeholder="Email"
                                 className="auth__input p-[10px] radius-primary w-[350px] text-sm border-[1.2px] border-solid border-gray-primary outline-none trans-second focus:border-primary-color" type="email" />
                             {/* <label for="name" className="auth__label absolute top-1/2 left-3 -translate-y-1/2 text-gray-primary text-sm outline-none select-none pointer-events-none trans-second leading-none">Email</label> */}
@@ -31,6 +49,7 @@ const SignIn = () => {
                     <div className="form__item input-container">
                         <div className="relative">
                             <input id="password"
+                                {...register('password', { required: true })}
                                 placeholder="Password"
                                 className="auth__input p-[10px] radius-primary w-[350px] text-sm border-[1.2px] border-solid border-gray-primary outline-none trans-second focus:border-primary-color" type="password" />
                             {/* <!--
