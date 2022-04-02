@@ -1,7 +1,7 @@
 import React from 'react'
 import Footer from '../../../components/client/Footer'
 import Header from '../../../components/client/Header'
-import ListNews from '../../../components/ListNews'
+import ListNews from '../../../components/client/ListNews'
 
 const NewsPage = () => {
     return (

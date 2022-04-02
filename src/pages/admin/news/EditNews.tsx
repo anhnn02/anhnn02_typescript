@@ -1,44 +1,44 @@
 import React, { useEffect } from 'react'
 import { useForm, SubmitHandler } from "react-hook-form"
 import { useNavigate, useParams } from "react-router-dom"
-import { read } from '../../../api/product'
-import { ProductType } from '../../types/product'
+import { read } from '../../../api/news'
+import { NewsType } from '../../types/news'
 
-type ProductEditProps = {
-    onUpdate: (props: ProductType) => void
+type NewsEditProps = {
+    onUpdate: (props: NewsType) => void
 }
 type FormInputs = {
     name: string,
-    price: number,
+    author: number,
 }
 
-const EditProduct = (props: ProductEditProps) => {
+const EditNews = (props: NewsEditProps) => {
     const { register, handleSubmit, formState: { errors }, reset } = useForm<FormInputs>();
     const navigate = useNavigate();
     const { id } = useParams();
 
     useEffect(() => {
-        const getProduct = async () => {
+        const getNews = async () => {
             const { data } = await read(id);
 
             // truyen du lieu cu vao form, k bug linh tinh
             reset(data)
         }
-        getProduct();
+        getNews();
     }, [])
 
     const onSubmit: SubmitHandler<FormInputs> = data => {
         props.onUpdate(data);
-        navigate('/admin/product');
+        navigate('/admin/news');
     }
     return (
         <form action="" onSubmit={handleSubmit(onSubmit)}>
-            <input type="text" {...register("name", { required: true })} placeholder="Product Name" />
+            <input type="text" {...register("name", { required: true })} placeholder="News Name" />
             {errors.name && <span>Field is required!</span>}
-            <input type="text" {...register("price")} placeholder="Price" />
+            <input type="text" {...register("author")} placeholder="Author" />
             <button>Save change</button>
         </form>
     )
 }
 
-export default EditProduct
+export default EditNews

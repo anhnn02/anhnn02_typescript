@@ -15,9 +15,11 @@ import AdminLayout from './pages/layouts/AdminLayout';
 import WebsiteLayout from './pages/layouts/WebsiteLayout';
 import Dashboard from './pages/admin/Dashboard';
 import Product from './pages/admin/product/Product';
+import News from './pages/admin/news/News';
 import Page404 from './pages/Page404';
 import { ProductType } from './pages/types/product';
-import { create, list, remove, update } from './api/product';
+import { create, list, remove as removeProduct, update } from './api/product';
+import { create as createNews, list as listNews, remove as removeNews, update as updateNews } from './api/news';
 import AddProduct from './pages/admin/product/AddProduct';
 
 import ForgotPassword from './pages/auth/ForgotPassword';
@@ -28,11 +30,18 @@ import CheckoutPage from './pages/client/cart/CheckoutPage';
 import OrderSuccessfully from './pages/client/cart/OrderSuccessfully';
 import EditProduct from './pages/admin/product/EditProduct';
 import PrivateRouter from './components/PrivateRouter';
+import CategoryProduct from './pages/admin/cateProduct/Category';
+import CategoryNews from './pages/admin/cateNews/Category';
+import EditCategory from './pages/admin/cateProduct/EditCategory';
+import EditCategoryNews from './pages/admin/cateNews/EditCategory';
+import AddNews from './pages/admin/news/AddNews';
+import EditNews from './pages/admin/news/EditNews';
 
 // import ShowInfo from './components/ShowInfo'
 
 function App() {
   const [products, setProducts] = useState<ProductType[]>([]);
+  const [news, setNews] = useState<ProductType[]>([]);
 
   useEffect(() => {
     const getProducts = async () => {
@@ -42,21 +51,53 @@ function App() {
     getProducts();
   }, [])
 
-  const removeItem = (id: number) => {
-    remove(id)
-    setProducts(products.filter(item => item._id !== id));
+  useEffect(() => {
+    const getNewsList = async () => {
+      const { data } = await listNews();
+      setNews(data);
+    }
+    getNewsList();
+  }, [])
+
+  const removeItem = async (id: number) => {
+    const confirm = window.confirm('Are you sure you want delete this item?');
+    if (confirm) {
+      await removeProduct(id)
+      setProducts(products.filter(item => item._id !== id));
+    }
+  }
+  const removeItemNews = async (id: number) => {
+    const confirm = window.confirm('Are you sure you want delete this item?');
+    if (confirm) {
+      await removeNews(id)
+      setNews(news.filter(item => item._id !== id));
+    }
+
   }
 
-  const onHandleAdd = (data) => {
-    create(data);
-    setProducts([...products, data])
+  const onHandleAdd = async (data) => {
+    const { data: product } = await create(data);
+    if (product) {
+      setProducts([...products, product])
+    }
+  }
+  const onHandleAddNews = async (data) => {
+    const {data : oneNews} = await createNews(data);
+    console.log(oneNews)
+    if (oneNews) {
+      setNews([...news, oneNews])
+    }
   }
 
   const onHandleUpdate = async (product: ProductType) => {
-    console.log(product);
-    update(product);
+    await update(product);
     setProducts(products.map(item => item._id === product._id ? product : item))
   }
+  const onHandleUpdateNews = async (product: ProductType) => {
+    await update(product);
+    setNews(news.map(item => item._id === product._id ? product : item))
+  }
+
   return (
     <>
       <Routes>
@@ -86,11 +127,20 @@ function App() {
           <Route index element={<Navigate to="dashboard" />} />
           <Route path="dashboard" element={<Dashboard />} />
 
+          <Route path="category-product" element={<CategoryProduct />} />
+          <Route path="category-product/:id/edit" element={<EditCategory />} />
+          <Route path="category-news" element={<CategoryNews />} />
+          <Route path="category-news/:id/edit" element={<EditCategoryNews />} />
+
           <Route path="product">
             <Route index element={< Product products={products} onRemove={removeItem} />} />
-            <Route path=":id/edit" element={<EditProduct onUpdate={onHandleUpdate}/>} />
-            <Route path="add" element={<AddProduct onAdd={onHandleAdd}/>} />
-            <Route path="category-product" element={<h1>Hello 2</h1>} />
+            <Route path=":id/edit" element={<EditProduct onUpdate={onHandleUpdate} />} />
+            <Route path="add" element={<AddProduct onAdd={onHandleAdd} />} />
+          </Route>
+          <Route path="news">
+            <Route index element={<News news={news} onRemove={removeItemNews} />} />
+            <Route path=":id/edit" element={<EditNews onUpdate={onHandleUpdateNews} />} />
+            <Route path="add" element={<AddNews onAdd={onHandleAddNews} />} />
           </Route>
 
         </Route>

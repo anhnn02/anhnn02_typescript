@@ -1,44 +1,46 @@
 import React from 'react'
 import { useForm, SubmitHandler } from "react-hook-form"
 import { useNavigate, useParams } from "react-router-dom"
-import { read } from '../../../api/product'
-import { ProductType } from '../../types/product'
+import { read } from '../../../api/news'
+import { NewsType } from '../../types/news'
 
-type ProductAddProps = {
-  onAdd: (props: ProductType) => void
+type NewsAddProps = {
+  onAdd: (props: NewsType) => void
 }
 type FormInputs = {
   name: string,
-  price: number,
-  desc: string
+  author: string,
+
 }
 
-const AddProduct = (props: ProductAddProps) => {
+const AddNews = (props: NewsAddProps) => {
   const { register, handleSubmit, formState: { errors } } = useForm<FormInputs>();
   const navigate = useNavigate();
   const onSubmit: SubmitHandler<FormInputs> = data => {
-    console.log("first", data)
     props.onAdd(data);
-    navigate('/admin/product')
+    navigate('/admin/news')
   }
   return (
     <>
-      <div className="container px-6 mx-auto grid">
+      <form action="" onSubmit={handleSubmit(onSubmit)}>
+        <input type="text" placeholder="News Name" {...register('name', { required: true })}/>
+        <input type="text" placeholder="Author" {...register('author')}/>
+        <button>Add</button>
+      </form>
+      {/* <div className="container px-6 mx-auto grid">
         <h2 className="my-6 text-2xl font-semibold text-gray-700 :text-gray-200">
           Products
         </h2>
         <h4 className="text-xl font-semibold text-green-500 :text-gray-200">Add product</h4>
         <div className="grid grid-cols-2 gap-8">
-          <form id="form-add" className="" onSubmit={handleSubmit(onSubmit)}>
+          <form id="form-add" className="">
             <div className="mb-4">
               <label className="block :text-white text-gray-700 text-sm font-bold mb-2">
                 Product name
               </label>
               <input
                 className=" appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:-outline"
-                id="title-product" type="text"
-                {...register('name', { required: true })}
-                 />
+                id="title-product" name="title-product" type="text" />
             </div>
             <div className="grid grid-cols-2 gap-5">
               <div className="m-full">
@@ -83,7 +85,7 @@ const AddProduct = (props: ProductAddProps) => {
             <div className="grid grid-cols-2 gap-5">
               <div className="m-full mb-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2">
-                  Regular Price($)
+                  Price Regular ($)
                 </label>
                 <div className="mb-3">
                   <input
@@ -93,7 +95,7 @@ const AddProduct = (props: ProductAddProps) => {
               </div>
               <div className="m-full">
                 <label className="block text-gray-700 text-sm font-bold mb-2">
-                  Sale Price($)
+                  Price new ($)
                 </label>
                 <div className="mb-3">
                   <input
@@ -112,7 +114,7 @@ const AddProduct = (props: ProductAddProps) => {
               <label className="block :text-white text-gray-700 text-sm font-bold mb-2">
                 Description
               </label>
-              <textarea className="w-full" id="desc-product" {...register('desc')} ></textarea>
+              <textarea className="w-full" name="" id="desc-product" ></textarea>
             </div>
             <div className="text-right">
               <button
@@ -128,9 +130,9 @@ const AddProduct = (props: ProductAddProps) => {
               alt="" />
           </div>
         </div>
-      </div>
+      </div> */}
     </>
   )
 }
 
-export default AddProduct
+export default AddNews
