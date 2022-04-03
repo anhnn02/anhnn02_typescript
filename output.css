@@ -797,10 +797,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-left: 2.5rem;
 }
 
-.ml-3 {
-  margin-left: 0.75rem;
-}
-
 .mr-8 {
   margin-right: 2rem;
 }
@@ -1876,6 +1872,14 @@ Ensure the default browser behavior of the `hidden` attribute.
   padding-top: 0.5rem;
 }
 
+.pl-1 {
+  padding-left: 0.25rem;
+}
+
+.pr-2 {
+  padding-right: 0.5rem;
+}
+
 .pr-8 {
   padding-right: 2rem;
 }
@@ -2118,6 +2122,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .text-secondary-color {
   color: var(--secondary-color);
+}
+
+.text-red-500 {
+  --tw-text-opacity: 1;
+  color: rgb(239 68 68 / var(--tw-text-opacity));
 }
 
 .no-underline {
@@ -2748,16 +2757,6 @@ img {
 }
 
 @media (prefers-color-scheme: dark) {
-  .dark\:text-gray-200 {
-    --tw-text-opacity: 1;
-    color: rgb(229 231 235 / var(--tw-text-opacity));
-  }
-
-  .dark\:text-white {
-    --tw-text-opacity: 1;
-    color: rgb(255 255 255 / var(--tw-text-opacity));
-  }
-
   .dark\:text-gray-400 {
     --tw-text-opacity: 1;
     color: rgb(156 163 175 / var(--tw-text-opacity));

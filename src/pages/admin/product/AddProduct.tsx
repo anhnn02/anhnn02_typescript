@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm, SubmitHandler } from "react-hook-form"
 import { useNavigate, useParams } from "react-router-dom"
-import { read } from '../../../api/product'
+import { list } from '../../../api/categoryProduct'
+import { CateProductType } from '../../types/categoryProduct'
 import { ProductType } from '../../types/product'
 
 type ProductAddProps = {
@@ -10,16 +11,28 @@ type ProductAddProps = {
 type FormInputs = {
   name: string,
   price: number,
-  desc: string
+  desc: string,
+  categoryPro: string
 }
 
 const AddProduct = (props: ProductAddProps) => {
+  const [categories, setCategories] = useState<CateProductType[]>([])
+
   const { register, handleSubmit, formState: { errors } } = useForm<FormInputs>();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const getCategoryPro = async () => {
+      const { data } = await list();
+      setCategories(data)
+    }
+    getCategoryPro();
+  }, [])
+
   const onSubmit: SubmitHandler<FormInputs> = data => {
-    console.log("first", data)
+    console.log(data)
     props.onAdd(data);
-    navigate('/admin/product')
+    // navigate('/admin/product')
   }
   return (
     <>
@@ -38,7 +51,8 @@ const AddProduct = (props: ProductAddProps) => {
                 className=" appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:-outline"
                 id="title-product" type="text"
                 {...register('name', { required: true })}
-                 />
+              />
+              {errors.name && <span className="text-red-500">Field is required!</span>}
             </div>
             <div className="grid grid-cols-2 gap-5">
               <div className="m-full">
@@ -59,7 +73,9 @@ const AddProduct = (props: ProductAddProps) => {
                 <label className="block text-gray-700 text-sm font-bold mb-2">
                   Category Name
                 </label>
-                <select className="selected-cate form-select appearance-none block 
+                <select
+                  {...register('categoryPro', { required: true })}
+                  className="selected-cate form-select appearance-none block 
                                             w-full
                                             px-3
                                             py-[4px]
@@ -74,9 +90,9 @@ const AddProduct = (props: ProductAddProps) => {
                                             m-0
                                             focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                   aria-label="Default select example">
-
-
-                  <option className="" value="">Abc</option>
+                  {categories?.map((item) => {
+                    return <option className="" value={item._id}>{item.name}</option>
+                  })}
                 </select>
               </div>
             </div>
@@ -88,7 +104,10 @@ const AddProduct = (props: ProductAddProps) => {
                 <div className="mb-3">
                   <input
                     className=" appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:-outline"
-                    id="old-price-product" type="number" name="old-price-product" />
+                    id="old-price-product" type="number"
+                    {...register('price', { required: true })}
+                    />
+                    {errors.price && <span className="text-red-500">Field is required!</span>}
                 </div>
               </div>
               <div className="m-full">
@@ -98,7 +117,8 @@ const AddProduct = (props: ProductAddProps) => {
                 <div className="mb-3">
                   <input
                     className=" appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:-outline"
-                    id="price-product" type="number" name="price-product" />
+                    id="price-product" type="number"
+                  />
                 </div>
               </div>
             </div>

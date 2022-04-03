@@ -19,6 +19,7 @@ import News from './pages/admin/news/News';
 import Page404 from './pages/Page404';
 import { ProductType } from './pages/types/product';
 import { create, list, remove as removeProduct, update } from './api/product';
+import {list as listCatePro} from './api/categoryProduct';
 import { create as createNews, list as listNews, remove as removeNews, update as updateNews } from './api/news';
 import AddProduct from './pages/admin/product/AddProduct';
 
@@ -42,6 +43,7 @@ import EditNews from './pages/admin/news/EditNews';
 function App() {
   const [products, setProducts] = useState<ProductType[]>([]);
   const [news, setNews] = useState<ProductType[]>([]);
+  const [categoryPro, setCategoryPro] = useState<ProductType[]>([]);
 
   useEffect(() => {
     const getProducts = async () => {
@@ -49,24 +51,28 @@ function App() {
       setProducts(data);
     }
     getProducts();
-  }, [])
 
-  useEffect(() => {
     const getNewsList = async () => {
       const { data } = await listNews();
       setNews(data);
     }
     getNewsList();
+
+    const getCategoryPro = async () => {
+      const { data } = await listCatePro();
+      setCategoryPro(data);
+    }
+    getCategoryPro();
   }, [])
 
-  const removeItem = async (id: number) => {
+  const removeItem = async (id: number | string) => {
     const confirm = window.confirm('Are you sure you want delete this item?');
     if (confirm) {
       await removeProduct(id)
       setProducts(products.filter(item => item._id !== id));
     }
   }
-  const removeItemNews = async (id: number) => {
+  const removeItemNews = async (id: number | string) => {
     const confirm = window.confirm('Are you sure you want delete this item?');
     if (confirm) {
       await removeNews(id)
@@ -82,7 +88,7 @@ function App() {
     }
   }
   const onHandleAddNews = async (data) => {
-    const {data : oneNews} = await createNews(data);
+    const { data: oneNews } = await createNews(data);
     console.log(oneNews)
     if (oneNews) {
       setNews([...news, oneNews])
@@ -133,7 +139,7 @@ function App() {
           <Route path="category-news/:id/edit" element={<EditCategoryNews />} />
 
           <Route path="product">
-            <Route index element={< Product products={products} onRemove={removeItem} />} />
+            <Route index element={< Product products={products} categories={categoryPro}  onRemove={removeItem} />} />
             <Route path=":id/edit" element={<EditProduct onUpdate={onHandleUpdate} />} />
             <Route path="add" element={<AddProduct onAdd={onHandleAdd} />} />
           </Route>
