@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { NavLink } from 'react-router-dom';
+import slugify from 'react-slugify';
 import { create, list, remove } from '../../../api/categoryProduct';
 import { CateProductType } from '../../types/categoryProduct';
 
@@ -14,7 +15,13 @@ const Category = () => {
     const {register, handleSubmit, formState: { errors }} = useForm();
     
     const onSubmit: SubmitHandler<FormInputProps> = async data => {
-        const {data: category} = await create(data);
+        
+        const slugCate = slugify(data.name)
+        const dataCate = {
+            name: data.name,
+            slug: slugCate
+        }
+        const {data: category} = await create(dataCate);
         if (category){
             setCategories([...categories, category])
         }

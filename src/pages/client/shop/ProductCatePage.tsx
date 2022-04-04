@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
-import { read } from '../../../api/categoryProduct';
+import {list, read } from '../../../api/categoryProduct';
 import AsideCategory from '../../../components/client/Shop/AsideCategory'
 import ListProduct from '../../../components/client/Shop/ListProduct'
 import { CateProductType } from '../../types/categoryProduct';
@@ -12,15 +12,24 @@ type CatePropsType = {
 
 const ProductCate = ({ categories }: CatePropsType) => {
     const [proInCate, setProInCate] = useState<ProductType[]>([]);
-    console.log(proInCate)
     const { id } = useParams();
+    console.log("first", id)
 
     useEffect(() => {
-        const getProInCate = async () => {
-            const { data } = await read(id);
-            setProInCate(data.products);
+        const getCateFromSlug = async () => {
+            const { data } = await list();
+            const cate = data.filter((item) => {
+                return item.slug == id
+            })
+            const getProInCate = async () => {
+                const { data } = await read(cate[0]._id);
+                setProInCate(data.products);
+            }
+            getProInCate();
         }
-        getProInCate();
+        getCateFromSlug();
+
+        
     }, [id])
    
     return (

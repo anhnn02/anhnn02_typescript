@@ -111,7 +111,7 @@ function App() {
       <Routes>
         {/* Website */}
         <Route path="/" element={<WebsiteLayout />}>
-          <Route index element={<HomePage />} />
+          <Route index element={<HomePage products={products}/>} />
           <Route path="/categories/all" element={<ProductPage categories={categoryPro} products={products}/>} />
           <Route path="/categories/:id" element={<ProductCatePage categories={categoryPro} />} />
           <Route path="/news" element={<NewsPage />} />

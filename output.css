@@ -567,6 +567,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   top: -0.5rem;
 }
 
+.right-3 {
+  right: 0.75rem;
+}
+
 .top-\[10px\] {
   top: 10px;
 }
@@ -577,6 +581,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .z-10 {
   z-index: 10;
+}
+
+.z-40 {
+  z-index: 40;
 }
 
 .col-span-4 {
@@ -1048,6 +1056,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .w-\[20px\] {
   width: 20px;
+}
+
+.w-\[220px\] {
+  width: 220px;
 }
 
 .w-\[130px\] {
@@ -2270,6 +2282,12 @@ Ensure the default browser behavior of the `hidden` attribute.
   transition-property: color, background-color, border-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-text-decoration-color, -webkit-backdrop-filter;
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-text-decoration-color, -webkit-backdrop-filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.transition-all {
+  transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
 }

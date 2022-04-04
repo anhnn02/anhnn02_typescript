@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
+import slugify from 'react-slugify';
 import { update, get } from '../../../api/categoryProduct';
 
 type FormInputProps = {
@@ -24,7 +25,12 @@ const EditCategory = () => {
 
     //-------------update
     const onSubmit: SubmitHandler<FormInputProps> = async (data) => {
-        await update(data)
+        const slugCate = slugify(data.name)
+        const dataCate = {
+            name: data.name,
+            slug: slugCate
+        }
+        await update(dataCate)
         navigate('/admin/category-product');
     }
 
