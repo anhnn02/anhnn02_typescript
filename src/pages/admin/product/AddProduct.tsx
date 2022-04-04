@@ -10,8 +10,11 @@ type ProductAddProps = {
 }
 type FormInputs = {
   name: string,
-  price: number,
+  img?: string,
+  regularPrice: number,
+  salePrice: number,
   desc: string,
+  size: string,
   categoryPro: string
 }
 
@@ -32,7 +35,7 @@ const AddProduct = (props: ProductAddProps) => {
   const onSubmit: SubmitHandler<FormInputs> = data => {
     console.log(data)
     props.onAdd(data);
-    // navigate('/admin/product')
+    navigate('/admin/product')
   }
   return (
     <>
@@ -60,13 +63,16 @@ const AddProduct = (props: ProductAddProps) => {
                   Image
                 </label>
                 <div className="mb-3">
-                  <input className="form-control  block  w-full  px-3  py-1.5  text-base  font-normal  text-gray-700  bg-white bg-clip-padding  border border-solid border-gray-300
+                  <input
+                    {...register('img', { required: true })}
+                    className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300
                                             rounded
                                             transition
                                             ease-in-out
                                             m-0
-                                            focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" type="file"
-                    id="img-product" name="img-product" />
+                                            focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                    type="text"
+                    id="img-product" />
                 </div>
               </div>
               <div className="m-full mb-6">
@@ -105,9 +111,9 @@ const AddProduct = (props: ProductAddProps) => {
                   <input
                     className=" appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:-outline"
                     id="old-price-product" type="number"
-                    {...register('price', { required: true })}
-                    />
-                    {errors.price && <span className="text-red-500">Field is required!</span>}
+                    {...register('regularPrice', { required: true })}
+                  />
+                  {errors.regularPrice && <span className="text-red-500">Field is required!</span>}
                 </div>
               </div>
               <div className="m-full">
@@ -116,9 +122,11 @@ const AddProduct = (props: ProductAddProps) => {
                 </label>
                 <div className="mb-3">
                   <input
+                    {...register('salePrice', { required: true })}
                     className=" appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:-outline"
                     id="price-product" type="number"
                   />
+                  {errors.regularPrice && <span className="text-red-500">Field is required!</span>}
                 </div>
               </div>
             </div>
@@ -126,7 +134,9 @@ const AddProduct = (props: ProductAddProps) => {
               <label className="block :text-white text-gray-700 text-sm font-bold mb-2">
                 Size
               </label>
-              <input id="size" name="size-product" className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:-outline" type="text" />
+              <input
+                {...register('size', { required: true })}
+                id="size" className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:-outline" type="text" />
             </div>
             <div className="mb-4">
               <label className="block :text-white text-gray-700 text-sm font-bold mb-2">

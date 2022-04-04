@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { ProductType } from '../../types/product'
 import { CateProductType } from '../../types/categoryProduct'
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
+import { formatPrice } from '../../../utils/formatNumber';
 
 type ProductManagerProps = {
     products: ProductType[],
@@ -10,28 +11,46 @@ type ProductManagerProps = {
     onRemove: (id: number | string) => void
 }
 
-const Product = ({ products, categories, onRemove }: ProductManagerProps) => {
-    console.log(products)
+const Product = ({ products, onRemove }: ProductManagerProps) => {
     const columns: GridColDef[] = [
-        { field: 'index', headerName: '#', width: 60 },
+        { field: 'index', headerName: '#', width: 50 },
         {
             field: 'name',
             headerName: 'Product name',
-            width: 200,
+            width: 140,
             editable: true,
+        },
+        {
+            field: 'img',
+            headerName: 'Product Image',
+            width: 100,
+            editable: true,
+            sortable: false,
+            renderCell(params) {
+                console.log(params)
+                return <div className="w-20 h-20 "><img className="object-cover w-full h-full rounded p-2" src={`${params.row.img}`} alt="" /></div>
+            },
         },
         {
             field: 'price',
             headerName: 'Product Price',
             width: 100,
             editable: true,
+            renderCell(params) {
+                return <div className="truncate">{(params.row.salePrice) ? formatPrice(params.row.salePrice) : formatPrice(params.row.regularPrice)
+                }</div>
+            },
         },
         {
-            field: 'id',
-            headerName: 'Description',
-            width: 160,
-
+            field: 'cate',
+            headerName: 'Category',
+            width: 140,
+            renderCell(params) {
+                console.log("params", params.cate);
+                return <div className="truncate px-2 py-1 leading-tight text-green-700 bg-green-100 rounded-full :bg-green-700 :text-green-100">{params.row.cate}</div>
+            },
         },
+
         {
             field: 'quantity',
             headerName: 'Quantity',
@@ -39,17 +58,18 @@ const Product = ({ products, categories, onRemove }: ProductManagerProps) => {
 
         },
         {
-            field: 'desc',
+            field: 'size',
             headerName: 'Size',
-            width: 160,
+            width: 100,
         },
         {
-            field: 'cate',
-            headerName: 'Category',
-            width: 160,
+            field: 'desc',
+            headerName: 'Description',
+            width: 140,
+
         },
         {
-            field: 'aaaa',
+            field: 'edit',
             headerName: 'Edit',
             sortable: false,
             renderCell(params) {
@@ -59,7 +79,7 @@ const Product = ({ products, categories, onRemove }: ProductManagerProps) => {
             width: 50
         },
         {
-            field: 'abc',
+            field: 'del',
             headerName: 'Del',
             sortable: false,
             renderCell(params) {
@@ -68,15 +88,18 @@ const Product = ({ products, categories, onRemove }: ProductManagerProps) => {
             width: 50
         },
     ];
-    const newData = products.map((product, index) => {
+    const newData = products?.map((product, index) => {
         return {
             index: index + 1,
             quantity: index + 1,
             action: "",
             id: product._id,
             name: product.name,
-            price: product.price,
+            img: product.img,
+            regularPrice: product.regularPrice,
+            salePrice: product.salePrice,
             desc: product.desc,
+            size: product.size,
             cate: product.categoryPro.name
         }
     });
@@ -93,11 +116,11 @@ const Product = ({ products, categories, onRemove }: ProductManagerProps) => {
                     </Link>
                 </div>
             </div>
-            <div style={{ height: 400, width: '100%' }}>
+            <div style={{ height: 460, width: '100%', background: "white" }}>
                 <DataGrid
                     rows={newData}
                     columns={columns}
-                    pageSize={5}
+                    pageSize={6}
                     checkboxSelection
                     disableSelectionOnClick
                 />

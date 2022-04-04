@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { Navigate, NavLink, Route, Routes } from 'react-router-dom';
 import HomePage from './pages/client/HomePage';
 import ProductPage from './pages/client/shop/ProductPage';
+import ProductCatePage from './pages/client/shop/ProductCatePage';
 import AboutPage from './pages/client/AboutPage';
 import ContactPage from './pages/client/ContactPage';
 import NewsPage from './pages/client/news/NewsPage';
@@ -19,7 +20,7 @@ import News from './pages/admin/news/News';
 import Page404 from './pages/Page404';
 import { ProductType } from './pages/types/product';
 import { create, list, remove as removeProduct, update } from './api/product';
-import {list as listCatePro} from './api/categoryProduct';
+import {list as listCatePro, read} from './api/categoryProduct';
 import { create as createNews, list as listNews, remove as removeNews, update as updateNews } from './api/news';
 import AddProduct from './pages/admin/product/AddProduct';
 
@@ -37,13 +38,12 @@ import EditCategory from './pages/admin/cateProduct/EditCategory';
 import EditCategoryNews from './pages/admin/cateNews/EditCategory';
 import AddNews from './pages/admin/news/AddNews';
 import EditNews from './pages/admin/news/EditNews';
-
-// import ShowInfo from './components/ShowInfo'
+import { CateProductType } from './pages/types/categoryProduct';
 
 function App() {
   const [products, setProducts] = useState<ProductType[]>([]);
   const [news, setNews] = useState<ProductType[]>([]);
-  const [categoryPro, setCategoryPro] = useState<ProductType[]>([]);
+  const [categoryPro, setCategoryPro] = useState<CateProductType[]>([]);
 
   useEffect(() => {
     const getProducts = async () => {
@@ -63,6 +63,8 @@ function App() {
       setCategoryPro(data);
     }
     getCategoryPro();
+
+    
   }, [])
 
   const removeItem = async (id: number | string) => {
@@ -110,7 +112,8 @@ function App() {
         {/* Website */}
         <Route path="/" element={<WebsiteLayout />}>
           <Route index element={<HomePage />} />
-          <Route path="/shop" element={<ProductPage />} />
+          <Route path="/categories/all" element={<ProductPage categories={categoryPro} products={products}/>} />
+          <Route path="/categories/:id" element={<ProductCatePage categories={categoryPro} />} />
           <Route path="/news" element={<NewsPage />} />
           <Route path="/detail" element={<DetailNewsPage />} />
           <Route path="/about" element={<AboutPage />} />

@@ -1,7 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm, SubmitHandler } from "react-hook-form"
 import { useNavigate, useParams } from "react-router-dom"
+import { list } from '../../../api/categoryProduct'
 import { read } from '../../../api/product'
+import { CateProductType } from '../../types/categoryProduct'
 import { ProductType } from '../../types/product'
 
 type ProductEditProps = {
@@ -9,11 +11,17 @@ type ProductEditProps = {
 }
 type FormInputs = {
     name: string,
-    price: number,
-    desc: string
+    img?: string,
+    regularPrice: number,
+    salePrice: number,
+    desc: string,
+    size: string,
+    categoryPro: string
 }
 
 const EditProduct = (props: ProductEditProps) => {
+    const [categories, setCategories] = useState<CateProductType[]>([])
+
     const { register, handleSubmit, formState: { errors }, reset } = useForm<FormInputs>();
     const navigate = useNavigate();
     const { id } = useParams();
@@ -26,12 +34,20 @@ const EditProduct = (props: ProductEditProps) => {
             reset(data)
         }
         getProduct();
+
+        const getCategoryPro = async () => {
+            const { data } = await list();
+            setCategories(data)
+        }
+        getCategoryPro();
     }, [])
 
     const onSubmit: SubmitHandler<FormInputs> = data => {
+        console.log(salePrice)
         props.onUpdate(data);
         navigate('/admin/product');
     }
+
     return (
         <div className="container px-6 mx-auto grid">
             <h2 className="my-6 text-2xl font-semibold text-gray-700 :text-gray-200">
@@ -58,20 +74,25 @@ const EditProduct = (props: ProductEditProps) => {
                                 Image
                             </label>
                             <div className="mb-3">
-                                <input className="form-control  block  w-full  px-3  py-1.5  text-base  font-normal  text-gray-700  bg-white bg-clip-padding  border border-solid border-gray-300
+                                <input
+                                    {...register('img', { required: true })}
+                                    className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300
                                             rounded
                                             transition
                                             ease-in-out
                                             m-0
-                                            focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" type="file"
-                                    id="img-product" name="img-product" />
+                                            focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                                    type="text"
+                                    id="img-product" />
                             </div>
                         </div>
                         <div className="m-full mb-6">
                             <label className="block text-gray-700 text-sm font-bold mb-2">
                                 Category Name
                             </label>
-                            <select className="selected-cate form-select appearance-none block 
+                            <select
+                                {...register('categoryPro', { required: true })}
+                                className="selected-cate form-select appearance-none block 
                                             w-full
                                             px-3
                                             py-[4px]
@@ -86,32 +107,36 @@ const EditProduct = (props: ProductEditProps) => {
                                             m-0
                                             focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                                 aria-label="Default select example">
-                                <option className="" value="">Abc</option>
+                                {categories?.map((item) => {
+                                    return <option className="" value={item._id}>{item.name}</option>
+                                })}
                             </select>
                         </div>
                     </div>
                     <div className="grid grid-cols-2 gap-5">
                         <div className="m-full mb-4">
                             <label className="block text-gray-700 text-sm font-bold mb-2">
-                                Regular Price($)
+                                Regular Price ($)
                             </label>
                             <div className="mb-3">
                                 <input
                                     className=" appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:-outline"
                                     id="old-price-product" type="number"
-                                    {...register('price', { required: true })}
+                                    {...register('regularPrice', { required: true })}
                                 />
-                                {errors.price && <span>Field is required!</span>}
+                                {errors.regularPrice && <span>Field is required!</span>}
                             </div>
                         </div>
                         <div className="m-full">
                             <label className="block text-gray-700 text-sm font-bold mb-2">
-                                Sale Price($)
+                                Sale Price ($)
                             </label>
                             <div className="mb-3">
                                 <input
+                                    {...register('salePrice')}
                                     className=" appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:-outline"
                                     id="price-product" type="number" name="price-product" />
+                                {/* {errors.salePrice && <span>Field is required!</span>} */}
                             </div>
                         </div>
                     </div>
@@ -119,7 +144,9 @@ const EditProduct = (props: ProductEditProps) => {
                         <label className="block :text-white text-gray-700 text-sm font-bold mb-2">
                             Size
                         </label>
-                        <input id="size" name="size-product" className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:-outline" type="text" />
+                        <input
+                            {...register('size', { required: true })}
+                            id="size" className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:-outline" type="text" />
                     </div>
                     <div className="mb-4">
                         <label className="block :text-white text-gray-700 text-sm font-bold mb-2">

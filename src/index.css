@@ -3,20 +3,20 @@
 @tailwind utilities;
 
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+        sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+        monospace;
 }
 
-:root{
+:root {
     --primary-color: #FF6F16;
     --secondary-color: #332C54;
     --primary-15-color: rgba(248, 223, 209, 0.9);
@@ -34,64 +34,79 @@ code {
     --new-item-color: rgba(34, 255, 0, 0.15);
     --star-color: #FFE600;
 }
-*{
+
+* {
     font-family: 'Roboto Condensed', sans-serif;
 }
-html{
+
+html {
     font-size: 15px;
     color: var(--secondary-color);
 }
-a{
+
+a {
     color: var(--secondary-color);
 }
-img{
+
+img {
     @apply max-w-full
 }
 
-.radio input ~ label {
-   @apply leading-snug border-[1.5px] border-gray-light rounded-[5px] cursor-pointer max-h-[30px]; 
+.radio input~label {
+    @apply leading-snug border-[1.5px] border-gray-light rounded-[5px] cursor-pointer max-h-[30px];
 }
-.radio input:checked ~ label {
-  background-color: var(--primary-color);
-  color: white;
+
+.radio input:checked~label {
+    background-color: var(--primary-color);
+    color: white;
 }
 
 .menu-item-link {
-  position: relative;
+    position: relative;
 }
-.menu-item-link:hover{
+
+.menu-item-link:hover {
     color: var(--primary-color);
 }
+
 .menu-item-link::before {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background-color: var(--primary-color);
-  transform-origin: bottom right;
-  transform: scaleX(0);
-  transition: transform 0.5s ease;
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: var(--primary-color);
+    transform-origin: bottom right;
+    transform: scaleX(0);
+    transition: transform 0.5s ease;
 }
 
 .menu-item-link:hover::before {
-  transform-origin: bottom left;
-  transform: scaleX(1);
+    transform-origin: bottom left;
+    transform: scaleX(1);
 }
-.menu-item-link.active{
+
+.menu-item-link.active {
     color: var(--primary-color);
-    
+
 }
-.menu-item-link.active::before{
-  transform: scaleX(1);
+
+.menu-item-link.active::before {
+    transform: scaleX(1);
 
 }
 
 /* Nav link admin */
-.nav-link-admin.active{
+.nav-link-admin.active {
     @apply bg-purple-100 text-purple-800
 }
+
+.cate-link.active {
+    @apply bg-primary-15-color;
+    @apply text-primary-color
+}
+
 /* 
 .menu-item-link{
     @apply relative pb-5 
@@ -102,113 +117,127 @@ img{
 .menu-item-link:hover::before{
     @apply translate-x-1/2 translate-y-0 scale-x-100
 } */
-.value-home{
+.value-home {
     border-radius: 20px;
     padding: 20px
 }
-.value-home:hover{
+
+.value-home:hover {
     box-shadow: 0px 30px 20px -9px #E5E5E5;
 }
+
 .card-review {
     box-shadow: 0px 20px 30px -10px #C4C4C4, 40px -40px 50px -20px rgba(255, 111, 22, 0.15);
     border-radius: 20px;
 }
-.radius-primary{
+
+.radius-primary {
     @apply rounded-lg
 }
-.radius-secondary{
+
+.radius-secondary {
     border-radius: 5px;
 }
-.trans-second{
+
+.trans-second {
     transition: 0.3s;
 }
-.form__item + .form__item {
-    margin: 5px 0 0;
-  }
 
-  .auth__input:focus + .auth__label{
+.form__item+.form__item {
+    margin: 5px 0 0;
+}
+
+.auth__input:focus+.auth__label {
     top: 0;
     padding: 0 1px;
     display: inline-block;
     background: white;
     color: var(--primary-color);
-  }
+}
 
-  .social__item + .social__item {
+.social__item+.social__item {
     margin-left: 5px;
-  }
+}
 
-  .text-read{
+.text-read {
     @apply opacity-0;
-  }
-  .img-item-blog:hover{
-      opacity: 0.8;
-  }
-  .img-item-blog:hover .text-read{
+}
+
+.img-item-blog:hover {
+    opacity: 0.8;
+}
+
+.img-item-blog:hover .text-read {
     @apply opacity-100
-  }
-
-.item-cmt + .item-cmt{
-   @apply mt-3
 }
 
-.ff-2{
+.item-cmt+.item-cmt {
+    @apply mt-3
+}
+
+.ff-2 {
     font-family: 'Pacifico', sans-serif;
-   @apply text-xl
+    @apply text-xl
 }
 
-.category-link-active {
-   @apply bg-primary-15-color;
-   @apply text-primary-color
-}
+
 
 .product-tag {
-    @apply absolute top-3 left-0
-    }
+    @apply absolute top-1 left-0
+}
 
 .product-tag--sale {
-    @apply  py-[3px] px-3 radius-secondary min-w-[30px] bg-sale-color;
+    @apply py-[3px] px-3 radius-secondary min-w-[30px] bg-sale-color;
 }
+
 .product-tag--new {
-    @apply  py-[3px] px-3 radius-secondary min-w-[30px] bg-new-item-color;
+    @apply py-[3px] px-3 radius-secondary min-w-[30px] bg-new-item-color;
 
 }
-  
+
 .product__price--now {
     font-size: 15px;
     font-weight: bold;
 }
+
 .product__price--old {
     font-size: 13px;
     text-decoration: line-through;
 }
-.variation__item{
+
+.variation__item {
     font-size: 11px;
     border: 1px solid var(--gray-light);
     color: var(--gray-darker);
     padding: 2px 2px;
     border-radius: 3px;
 }
+
 /*dt: detail */
-.variation__item-dt{
-    @apply leading-snug text-[15px] border border-gray-light py-[5px] px-[7px] rounded-[5px] bg-none cursor-pointer max-h-[30px]; 
+.variation__item-dt {
+    @apply leading-snug text-[15px] border border-gray-light py-[5px] px-[7px] rounded-[5px] bg-none cursor-pointer max-h-[30px];
     outline: none;
 }
-.variation__item-dt:hover{
+
+.variation__item-dt:hover {
     background: var(--primary-15-color);
     border: 1px solid var(--primary-15-color);
 }
+
 .variation__item-dt.active {
     border: 1px solid var(--primary-color);
     background: var(--primary-color);
     color: white;
 }
-.bi-star-fill{
+
+.bi-star-fill {
     color: var(--star-color);
 }
-.bi-star-fill.disabled{
+
+.bi-star-fill.disabled {
     color: var(--gray);
 }
+
 .btn-cart-quick {
     border: none;
     border-radius: 5px;
@@ -221,61 +250,73 @@ img{
     cursor: pointer;
     outline: none
 }
+
 .products__item:hover .btn-cart-quick {
     transform: translate(-50%, -60px);
     transition: 0.3s;
 }
+
 .btn-favorite {
     border: none;
     border-radius: 5px;
-    background:var(--gray-light);
+    background: var(--gray-light);
     padding: 3px 12px;
     cursor: pointer;
     outline: none
 }
-.btn-favorite   i::before{
+
+.btn-favorite i::before {
     line-height: 1 !important;
 }
-.btn-favorite   .bi-heart {
+
+.btn-favorite .bi-heart {
     color: var(--gray-dark);
 }
-.btn-favorite   .bi-heart-fill {
+
+.btn-favorite .bi-heart-fill {
     color: var(--primary-color);
     display: none;
 }
- .btn-favorite:hover {
+
+.btn-favorite:hover {
     background: var(--primary-15-color);
 }
 
-.btn-favorite:hover  .bi-heart {
+.btn-favorite:hover .bi-heart {
     display: none;
 }
-.btn-favorite:hover  .bi-heart-fill {
+
+.btn-favorite:hover .bi-heart-fill {
     display: inline-block;
 }
-.btn-favorite-1{
+
+.btn-favorite-1 {
     position: absolute;
     top: 5px;
     right: 5px;
 }
-.category-item__item + .category-item__item {
+
+.category-item__item+.category-item__item {
     margin-top: 5px;
 }
 
-.page-number{
-  border-radius: 3px;
-  background: white;
-  padding: 4px 10px;
-  cursor: pointer;
+.page-number {
+    border-radius: 3px;
+    background: white;
+    padding: 4px 10px;
+    cursor: pointer;
 
 }
-.page-number:hover{
+
+.page-number:hover {
     background: var(--primary-15-color);
 }
-.page-number + .page-number{
+
+.page-number+.page-number {
     margin-left: 10px;
 }
-.active-page{
+
+.active-page {
     background: var(--primary-15-color);
 
 }
@@ -290,6 +331,7 @@ img{
     position: relative;
     outline: none
 }
+
 .tablinks::before {
     content: "";
     position: absolute;
@@ -302,18 +344,21 @@ img{
     transform: translate(-50%, 0) scaleX(0);
     transition: transform 0.3s ease-in-out;
 }
+
 .tablinks:hover::before {
     transform: translate(-50%, 0) scaleX(1);
 }
+
 .tablinks.active::before {
     transform: translate(-50%, 0) scaleX(1);
 
 }
-.tablinks + .tablinks {
-        margin-left: 15px;
+
+.tablinks+.tablinks {
+    margin-left: 15px;
 }
 
-.error{
+.error {
     color: red;
     display: inline-block;
     margin-top: 2px;
