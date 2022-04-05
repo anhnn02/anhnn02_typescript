@@ -90,8 +90,17 @@ const ProductDetailPage = () => {
                                                     <div className="radio">
                                                         <input name="sizeProduct" type="radio" id="sizeProduct-${i}" value="${size}" />
                                                         <label htmlFor="sizeProduct-${i}"
-                                                            className="px-[14px] py-[14px] rounded flex justify-center items-center text-sm lg:text-lg w-5 h-5 lg:w-14 lg:h-14">
+                                                            className="px-[10px] py-[14px] rounded flex justify-center items-center text-sm lg:text-lg w-5 h-5 lg:w-10 lg:h-14">
                                                             {/* ${size} */}
+                                                            38
+                                                        </label>
+                                                    </div>
+                                                    <div className="radio">
+                                                        <input name="sizeProduct" type="radio" id="sizeProduct-${is}" value="${size}" />
+                                                        <label htmlFor="sizeProduct-${is}"
+                                                            className="px-[14px] py-[14px] rounded flex justify-center items-center text-sm lg:text-lg w-5 h-5 lg:w-10 lg:h-14">
+                                                            {/* ${size} */}
+                                                            38
                                                         </label>
                                                     </div>
                                                 </div>
@@ -147,10 +156,8 @@ const ProductDetailPage = () => {
                         <h4 className="text-2xl py-3">Related products <b>{nameCate}</b> </h4>
                         <div className="renderNoProduct text-center"></div>
                         <div className="grid grid-cols-5 gap-5 max-w-7xl m-auto">
-                            {/* {
-                                (1 == 1) ? "Have no related product!" : "hlo"
-                            } */}
-                             {relatedProduct?.map((item) => {
+                            {(relatedProduct.length === 0) ? <p className="text-orange-800">Have no related product!</p>
+                            : relatedProduct?.map((item) => {
                                 return <div className="products__item bg-white radius-primary pt-[5px] px-[5px] pb-[10px]">
                                     <div className="relative overflow-hidden h-44">
                                         <Link to={`/product/${item._id}`}>
