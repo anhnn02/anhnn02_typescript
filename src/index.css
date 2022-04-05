@@ -48,6 +48,9 @@ a {
     color: var(--secondary-color);
 }
 
+.grid-cols-custom{
+    grid-template-columns: 3fr 5fr 3fr
+}
 img {
     @apply max-w-full
 }

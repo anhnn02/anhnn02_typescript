@@ -12,11 +12,12 @@ const EditCategory = () => {
     const { register, handleSubmit, formState: { errors }, reset } = useForm<FormInputProps>();
     const navigate = useNavigate();
     const { id } = useParams();
+    console.log(id)
 
     useEffect(() => {
         const getCategory = async () => {
+            console.log("asdasd", id)
             const { data } = await get(id);
-
             // truyen du lieu cu vao form, k bug linh tinh
             reset(data)
         }
@@ -27,9 +28,11 @@ const EditCategory = () => {
     const onSubmit: SubmitHandler<FormInputProps> = async (data) => {
         const slugCate = slugify(data.name)
         const dataCate = {
+            _id: id,
             name: data.name,
             slug: slugCate
         }
+        console.log("first", dataCate)
         await update(dataCate)
         navigate('/admin/category-product');
     }

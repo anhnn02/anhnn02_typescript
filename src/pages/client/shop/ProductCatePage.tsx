@@ -12,14 +12,13 @@ type CatePropsType = {
 
 const ProductCate = ({ categories }: CatePropsType) => {
     const [proInCate, setProInCate] = useState<ProductType[]>([]);
-    const { id } = useParams();
-    console.log("first", id)
+    const { cateName } = useParams();
 
     useEffect(() => {
         const getCateFromSlug = async () => {
             const { data } = await list();
             const cate = data.filter((item) => {
-                return item.slug == id
+                return item.slug == cateName
             })
             const getProInCate = async () => {
                 const { data } = await read(cate[0]._id);
@@ -28,9 +27,7 @@ const ProductCate = ({ categories }: CatePropsType) => {
             getProInCate();
         }
         getCateFromSlug();
-
-        
-    }, [id])
+    }, [cateName])
    
     return (
         <>

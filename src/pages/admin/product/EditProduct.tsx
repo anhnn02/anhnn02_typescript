@@ -43,7 +43,6 @@ const EditProduct = (props: ProductEditProps) => {
     }, [])
 
     const onSubmit: SubmitHandler<FormInputs> = data => {
-        console.log(salePrice)
         props.onUpdate(data);
         navigate('/admin/product');
     }

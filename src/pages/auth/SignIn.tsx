@@ -12,11 +12,23 @@ const SignIn = () => {
     const { register, handleSubmit, formState: { errors } } = useForm<FormInputProps>()
     const navigate = useNavigate()
 
+    // if (localStorage.getItem('user')) {
+    //     const { user } = JSON.parse(localStorage.getItem('user'))
+    //     if (user.role != 1) {
+    //         return navigate('/')
+    //     } else {
+    //         return navigate('/admin')
+    //     }
+    // }
+
     const onSubmit: SubmitHandler<FormInputProps> = async data  => {
         const {data: user} = await signin(data)
-        console.log(user)
         localStorage.setItem('user', JSON.stringify(user))
-        navigate('/admin')
+        if (user.user.role == 1) {
+            navigate('/admin')
+        } else {
+            navigate('/')
+        }
     }
 
     return (

@@ -39,6 +39,7 @@ import EditCategoryNews from './pages/admin/cateNews/EditCategory';
 import AddNews from './pages/admin/news/AddNews';
 import EditNews from './pages/admin/news/EditNews';
 import { CateProductType } from './pages/types/categoryProduct';
+import ProductDetailPage from './pages/client/shop/ProductDetailPage';
 
 function App() {
   const [products, setProducts] = useState<ProductType[]>([]);
@@ -113,7 +114,7 @@ function App() {
         <Route path="/" element={<WebsiteLayout />}>
           <Route index element={<HomePage products={products}/>} />
           <Route path="/categories/all" element={<ProductPage categories={categoryPro} products={products}/>} />
-          <Route path="/categories/:id" element={<ProductCatePage categories={categoryPro} />} />
+          <Route path="/categories/:cateName" element={<ProductCatePage categories={categoryPro} />} />
           <Route path="/news" element={<NewsPage />} />
           <Route path="/detail" element={<DetailNewsPage />} />
           <Route path="/about" element={<AboutPage />} />
@@ -121,6 +122,7 @@ function App() {
           <Route path="/cart" element={<CartPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/order-success" element={<OrderSuccessfully />} />
+          <Route path="/product/:productName" element={<ProductDetailPage />} />
         </Route>
 
         {/* auth */}
